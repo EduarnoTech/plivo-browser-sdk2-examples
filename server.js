@@ -21,7 +21,7 @@ app.get('/:uid/:deviceId', async function(req, res) {
   // ejs render automatically looks in the views folder
   const { uid, deviceId } = req.params;
   console.log({uidCheck:uid})
-  const getCallNumber = await axios.get(`https://device6apigcp.el.r.appspot.com/v1/api/conversations/getWaId/${uid}`);
+  const getCallNumber = await axios.get(`https://eduarno-test-apis.uc.r.appspot.com/v1/api/conversations/getWaId/${uid}`);
   if(getCallNumber.data)console.log({getCallNumber : getCallNumber.data})
   res.render('index',{ waId: getCallNumber?.data?.result});
 });
