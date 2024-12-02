@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var app = express();
+const axios = require('axios');
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -16,9 +17,13 @@ console.log(__dirname);
 app.use(express.static(__dirname + '/webApp-plivo/public'));
 
 // set the home page route
-app.get('/', function(req, res) {
+app.get('/:uid/:deviceId', async function(req, res) {
   // ejs render automatically looks in the views folder
-  res.render('index');
+  const { uid, deviceId } = req.params;
+  console.log({uidCheck:uid})
+  const getCallNumber = await axios.get(`https://device6apigcp.el.r.appspot.com/v1/api/conversations/getWaId/${uid}`);
+  if(getCallNumber.data)console.log({getCallNumber : getCallNumber.data})
+  res.render('index',{ waId: getCallNumber?.data?.result});
 });
 
 app.listen(port, function() {
